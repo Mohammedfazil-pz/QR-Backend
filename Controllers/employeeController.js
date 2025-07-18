@@ -36,6 +36,7 @@ exports.PostEmployees = async (req, res) => {
 
 ///GET Employees
 exports.getEmployees = async (req, res) => {
+ 
   try {
     const allEmployees = await Employees.find();
     res.status(200).json(allEmployees);
@@ -83,3 +84,17 @@ exports.editEmployee = async (req, res) => {
     res.status(500).json({ message: "server error", error: error.message });
   }
 };
+
+
+exports.getEmployeeByID=async(req,res)=>{
+  const {id}=req.params
+  try {
+    const isUser=await Employees.findOne({_id:id})
+    if(!isUser){
+      res.status(404).json({message:"User not found!"})
+    }
+    res.status(200).json({isUser})
+  } catch (error) {
+    res.status(500).json({message:'Server error',error})
+  }
+}
